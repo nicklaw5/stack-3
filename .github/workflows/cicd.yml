@@ -1,0 +1,36 @@
+name: cicd
+
+on:
+  - push
+
+env:
+  REPOSITORY: stack-3
+  TERRAFORM_DIR: terraform
+  TERRAFORM_VERSION: 0.12.23
+  AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOYER_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOYER_ACCESS_KEY_SECRET }}
+  AWS_DEFAULT_REGION: ap-southeast-2
+
+jobs:
+  deploy_vpc:
+    name: Deploy web app
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Terraform Format
+        run: .github/scripts/terraform_fmt.sh
+
+      - name: Terraform Init
+        run: .github/scripts/terraform_init.sh
+
+      - name: Terraform Validate
+        run: .github/scripts/terraform_validate.sh
+
+      - name: Terraform Plan
+        run: .github/scripts/terraform_plan.sh
+
+      - name: Terraform Apply
+        run: .github/scripts/terraform_apply.sh
