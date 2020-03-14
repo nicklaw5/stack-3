@@ -26,8 +26,8 @@ variable "managed_by" {
   default     = "terraform"
 }
 
-variable "alb_logs_bucket_name" {
-  description = "The name of the bucket created to store ALB access logs"
+variable "lb_logs_bucket_name" {
+  description = "The name of the bucket created to store load balancer logs"
   type        = string
-  default     = "stack-3-alb-access-logs"
+  default     = "stack-3-lb-logs"
 }

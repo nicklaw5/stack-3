@@ -29,8 +29,16 @@ jobs:
       - name: Terraform Validate
         run: .github/scripts/terraform_validate.sh
 
-      - name: Terraform Plan
-        run: .github/scripts/terraform_plan.sh
+      # - name: Terraform Plan
+      #   run: .github/scripts/terraform_plan.sh
 
-      - name: Terraform Apply
-        run: .github/scripts/terraform_apply.sh
+      # - name: Terraform Apply
+      #   run: .github/scripts/terraform_apply.sh
+
+      # Uncomment the below to step to destroy the stack.
+      # Note: if there are any objects in any S3 bucket
+      # the bucket will fail to terminate and this pipline
+      # will fail.
+
+      - name: Terraform Destroy
+        run: .github/scripts/terraform_destroy.sh
