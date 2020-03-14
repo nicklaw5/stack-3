@@ -95,3 +95,21 @@ resource "aws_lb" "app" {
     ManagedBy  = var.managed_by
   }
 }
+
+# ==========================================
+# == ALB TARGET GROUP
+# ==========================================
+
+resource "aws_lb_target_group" "app" {
+  vpc_id      = data.aws_vpc.public.id
+  name        = "${var.repository}-app-alb-tg"
+  port        = 8080
+  protocol    = "HTTP"
+  target_type = "ip"
+
+  tags = {
+    Name       = "${var.repository}-app-alb"
+    Repository = var.repository
+    ManagedBy  = var.managed_by
+  }
+}
