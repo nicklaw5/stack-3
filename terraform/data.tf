@@ -6,15 +6,13 @@ data "aws_elb_service_account" "main" {}
 
 data "aws_vpc" "public" {
   tags = {
-    Name       = "public-vpc"
-    Visibility = "public"
+    Name = "vpc-public"
   }
 }
 
-data "aws_vpc" "private" {
+data "aws_vpc" "secure" {
   tags = {
-    Name       = "private-vpc"
-    Visibility = "private"
+    Name = "vpc-secure"
   }
 }
 
@@ -24,25 +22,48 @@ data "aws_vpc" "private" {
 
 data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.public.id
+
+  tags = {
+    Visibility = "public"
+  }
 }
 
-data "aws_subnet_ids" "private" {
-  vpc_id = data.aws_vpc.private.id
+data "aws_subnet" "public_subnet_1" {
+  id     = tolist(data.aws_subnet_ids.public.ids)[0]
+  vpc_id = data.aws_vpc.public.id
 }
 
-data "aws_subnet" "private_subnet_1" {
-  id     = tolist(data.aws_subnet_ids.private.ids)[0]
-  vpc_id = data.aws_vpc.private.id
+data "aws_subnet" "public_subnet_2" {
+  id     = tolist(data.aws_subnet_ids.public.ids)[1]
+  vpc_id = data.aws_vpc.public.id
 }
 
-data "aws_subnet" "private_subnet_2" {
-  id     = tolist(data.aws_subnet_ids.private.ids)[1]
-  vpc_id = data.aws_vpc.private.id
+data "aws_subnet" "public_subnet_3" {
+  id     = tolist(data.aws_subnet_ids.public.ids)[2]
+  vpc_id = data.aws_vpc.public.id
 }
 
-data "aws_subnet" "private_subnet_3" {
-  id     = tolist(data.aws_subnet_ids.private.ids)[2]
-  vpc_id = data.aws_vpc.private.id
+data "aws_subnet_ids" "secure" {
+  vpc_id = data.aws_vpc.secure.id
+
+  tags = {
+    Visibility = "private"
+  }
+}
+
+data "aws_subnet" "secure_subnet_1" {
+  id     = tolist(data.aws_subnet_ids.secure.ids)[0]
+  vpc_id = data.aws_vpc.secure.id
+}
+
+data "aws_subnet" "secure_subnet_2" {
+  id     = tolist(data.aws_subnet_ids.secure.ids)[1]
+  vpc_id = data.aws_vpc.secure.id
+}
+
+data "aws_subnet" "secure_subnet_3" {
+  id     = tolist(data.aws_subnet_ids.secure.ids)[2]
+  vpc_id = data.aws_vpc.secure.id
 }
 
 # ==========================================

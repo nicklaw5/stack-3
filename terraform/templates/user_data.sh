@@ -2,9 +2,6 @@
 
 WEB_ROOT=~/web-root
 
-echo "==> Debugging NAT gateway :("
-ping -c 5 google.com
-
 echo "==> Installing python..."
 apt-get install -y python
 
