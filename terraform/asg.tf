@@ -107,6 +107,12 @@ resource "aws_cloudwatch_metric_alarm" "scale_up_alarm" {
   }
 
   alarm_actions = [aws_autoscaling_policy.scale_up_policy.arn]
+
+  tags = {
+    Name       = "${var.repository}-scale-up-alarm"
+    Repository = var.repository
+    ManagedBy  = var.managed_by
+  }
 }
 
 
@@ -137,4 +143,10 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
   }
 
   alarm_actions = [aws_autoscaling_policy.scale_down_policy.arn]
+
+  tags = {
+    Name       = "${var.repository}-scale-down-alarm"
+    Repository = var.repository
+    ManagedBy  = var.managed_by
+  }
 }

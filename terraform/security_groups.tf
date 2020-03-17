@@ -51,3 +51,32 @@ resource "aws_security_group" "ec2_sg" {
     ManagedBy  = var.managed_by
   }
 }
+
+resource "aws_security_group" "rds_sg" {
+  name   = "${var.repository}-rds-sg"
+  vpc_id = data.aws_vpc.restricted.id
+
+  ingress {
+    from_port = 5432
+    to_port   = 5432
+    protocol  = "tcp"
+    cidr_blocks = [
+      data.aws_subnet.secure_subnet_1.cidr_block,
+      data.aws_subnet.secure_subnet_2.cidr_block,
+      data.aws_subnet.secure_subnet_3.cidr_block,
+    ]
+  }
+
+  # egress {
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = "-1"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  tags = {
+    Name       = "${var.repository}-rds-sg"
+    Repository = var.repository
+    ManagedBy  = var.managed_by
+  }
+}

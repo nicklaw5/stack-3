@@ -16,6 +16,12 @@ data "aws_vpc" "secure" {
   }
 }
 
+data "aws_vpc" "restricted" {
+  tags = {
+    Name = "vpc-restricted"
+  }
+}
+
 # ==========================================
 # == SUBNETS (see stack-2)
 # ==========================================
@@ -64,6 +70,29 @@ data "aws_subnet" "secure_subnet_2" {
 data "aws_subnet" "secure_subnet_3" {
   id     = tolist(data.aws_subnet_ids.secure.ids)[2]
   vpc_id = data.aws_vpc.secure.id
+}
+
+data "aws_subnet_ids" "restricted" {
+  vpc_id = data.aws_vpc.restricted.id
+
+  tags = {
+    Visibility = "restricted"
+  }
+}
+
+data "aws_subnet" "restricted_subnet_1" {
+  id     = tolist(data.aws_subnet_ids.restricted.ids)[0]
+  vpc_id = data.aws_vpc.restricted.id
+}
+
+data "aws_subnet" "restricted_subnet_2" {
+  id     = tolist(data.aws_subnet_ids.restricted.ids)[1]
+  vpc_id = data.aws_vpc.restricted.id
+}
+
+data "aws_subnet" "restricted_subnet_3" {
+  id     = tolist(data.aws_subnet_ids.restricted.ids)[2]
+  vpc_id = data.aws_vpc.restricted.id
 }
 
 # ==========================================
