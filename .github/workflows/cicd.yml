@@ -12,7 +12,7 @@ env:
   AWS_DEFAULT_REGION: ap-southeast-2
 
 jobs:
-  deploy_vpc:
+  deploy_stack:
     name: Deploy web app
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
