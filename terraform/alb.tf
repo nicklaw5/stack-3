@@ -17,7 +17,7 @@ resource "aws_lb" "app_alb" {
 }
 
 # ==========================================
-# == ALB LISTENERS
+# == NLB LISTENERS
 # ==========================================
 
 resource "aws_lb_listener" "app_alb_listener_80" {
@@ -56,8 +56,8 @@ resource "aws_lb_listener" "app_alb_listener_443" {
 resource "aws_lb_target_group" "app_alb_tg" {
   vpc_id      = data.aws_vpc.public.id
   name        = "${var.repository}-app-alb-tg"
-  port        = 80
-  protocol    = "HTTP"
+  port        = 443
+  protocol    = "HTTPS"
   target_type = "ip"
 
   tags = {
@@ -82,17 +82,17 @@ data "aws_network_interface" "net_3" {
 resource "aws_lb_target_group_attachment" "app_alb_tg_att_net_1" {
   target_group_arn = aws_lb_target_group.app_alb_tg.arn
   target_id        = data.aws_network_interface.net_1.private_ip
-  port             = 80
+  port             = 443
 }
 
 resource "aws_lb_target_group_attachment" "app_alb_tg_att_net_2" {
   target_group_arn = aws_lb_target_group.app_alb_tg.arn
   target_id        = data.aws_network_interface.net_2.private_ip
-  port             = 80
+  port             = 443
 }
 
 resource "aws_lb_target_group_attachment" "app_alb_tg_att_net_3" {
   target_group_arn = aws_lb_target_group.app_alb_tg.arn
   target_id        = data.aws_network_interface.net_3.private_ip
-  port             = 80
+  port             = 443
 }

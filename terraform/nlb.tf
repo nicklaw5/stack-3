@@ -4,7 +4,7 @@
 
 resource "aws_lb" "app_nlb" {
   name               = "${var.repository}-app-nlb"
-  internal           = false
+  internal           = true
   load_balancer_type = "network"
 
   subnets = [
@@ -21,13 +21,15 @@ resource "aws_lb" "app_nlb" {
 }
 
 # ==========================================
-# == ALB LISTENERS
+# == NLB LISTENER
 # ==========================================
 
-resource "aws_lb_listener" "app_nlb_listener_80" {
+resource "aws_lb_listener" "app_nlb_listener_443" {
   load_balancer_arn = aws_lb.app_nlb.arn
-  port              = "80"
-  protocol          = "TCP"
+  port              = 443
+  protocol          = "TLS"
+  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-Ext-2018-06" # TLS 1.2 minimum required
+  certificate_arn   = aws_acm_certificate.demo_cert.arn
 
   default_action {
     type             = "forward"
