@@ -21,10 +21,10 @@ resource "aws_lb" "app_nlb" {
 }
 
 # ==========================================
-# == ALB LISTENER
+# == ALB LISTENERS
 # ==========================================
 
-resource "aws_lb_listener" "app_nlb_listener" {
+resource "aws_lb_listener" "app_nlb_listener_80" {
   load_balancer_arn = aws_lb.app_nlb.arn
   port              = "80"
   protocol          = "TCP"
